@@ -11,13 +11,13 @@ from langchain.document_loaders import PyPDFLoader
 
 load_dotenv()
 
-def generate_response(uploaded_file, query):
-    loader = PyPDFLoader(uploaded_file)
+def generate_response(file_path, query):
+    loader = PyPDFLoader(file_path)
     documents = loader.load_and_split()
     
     #splitting documents
     text_splitter = CharacterTextSplitter(chunk_size=1024, chunk_overlap=10)
-    docs = text_splitter.create_documents(documents)
+    docs = text_splitter.split_documents(documents)
 
     embedding_function = OpenAIEmbeddings()
 
@@ -72,21 +72,26 @@ def generate_response(uploaded_file, query):
                         template=template)
 
 
-    bot = qa_chain = RetrievalQA.from_chain_type(
+    bot = RetrievalQA.from_chain_type(
         llm,
         retriever=retriever,
         chain_type_kwargs={"prompt": prompt},
     )
 
+    result = bot({'query': query})
+    return result['result']
+
 # Page title
-st.set_page_config(page_title='🦜🔗 Ask the Doc App')
-st.title('🦜🔗 Ask the Doc App')
+st.set_page_config(page_title='🦜🔗 TFT Resource BOT')
+st.title('🦜🔗 TFT Resource BOT')
+
+file_path = "/home/anurag/Documents/langchain/ReBot/requirement"
 
 # File upload
 uploaded_file = st.file_uploader('Upload an article', type='pdf')
 if uploaded_file is not None:
     filename = uploaded_file.name
-    
+    file_path = os.path.join(file_path,filename)
 else:
     path_in = None
 # Query text
@@ -98,7 +103,7 @@ with st.form('myform', clear_on_submit=True):
     submitted = st.form_submit_button('Submit', disabled=not(uploaded_file and query_text))
     if submitted:
         with st.spinner('Calculating...'):
-            response = generate_response(uploaded_file, query_text)
+            response = generate_response(file_path, query_text)
             result.append(response)
 
 if len(result):
