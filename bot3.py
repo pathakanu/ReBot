@@ -2,21 +2,26 @@ import streamlit as st
 import os
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
+from langchain.prompts import FewShotPromptTemplate
 from langchain.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
+from langchain_core.pydantic_v1 import BaseModel, Field, validator
+from langchain.output_parsers import PydanticOutputParser
 from langchain.chat_models import ChatOpenAI
 from dotenv import load_dotenv
 from langchain.document_loaders import PyPDFLoader
 
 load_dotenv()
 
+
+
 def generate_response(file_path, query):
     loader = PyPDFLoader(file_path)
     documents = loader.load_and_split()
     
     #splitting documents
-    text_splitter = CharacterTextSplitter(chunk_size=1024, chunk_overlap=20)
+    text_splitter = CharacterTextSplitter(chunk_size=1024, chunk_overlap=10)
     docs = text_splitter.split_documents(documents)
 
     embedding_function = OpenAIEmbeddings()
@@ -31,53 +36,55 @@ def generate_response(file_path, query):
     )
     retriever = db.as_retriever(k=3)
 
+
     llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
 
-    template = """You are an Resource Management chatbot designed to assist company resource team. 
-            give the answer based on given client requirement documents and current market trends on tech stack.
-            Below is the requirement given from which you need to find out tech stack required with their ratings and overall experience
-            
-            {context}
-            Human: Tech stack for QA engineer
-            Chatbot:{{
-                            {{
-                            TechStack: Qlik,
-                            Rating: 5
-                            }},
-                            {{
-                            TechStack: SQL,
-                            Rating: 4
-                            }},
-                            {{
-                            TechStack: NoSQL,
-                            Rating: 4
-                            }},
-                            {{
-                            TechStack: Jira,
-                            Rating: 5
-                            }},
-                            {{
-                            TechStack: Scrum/Agile,
-                            Rating: 4
-                            }}
-                            experience:{{
-                            year: 5+}}
-                            }}
+    examples = [
+    {"techstack": "WordPress", "Rating": "3"},
+    {"techstack": "PHP", "Rating": "2"},
+    {"techstack": "JavaScript", "Rating": "4"},
+    {"techstack": "jQuery", "Rating": "3"},
+    {"techstack": "RESTful", "Rating": "5"},
+    {"techstack": "Git", "Rating": "5"},
+    {"techstack": "React.js", "Rating": "4"},
+    {"techstack": "SQL", "Rating": "3"},
+    {"techstack": "NoSQL", "Rating": "3"},
+    {"techstack": "JIRA", "Rating": "3"},
+    {"techstack": "Adobe CC", "Rating": "3"},  
+    {"techstack": "Adobe XD", "Rating": "3"},
+    {"techstack": "Figma", "Rating": "4"},
+    {"techstack": "Adobe CC", "Rating": "3"},
+    ]
 
-            Please give the answer in JSON format based on skills and experience which we mentioned in above example. Make sure the above is only example, don't add this data with new query.
-            Match the query tech stack with document tech stack, if those doesn't match return with an answer "I don't have information about this".
-            If the given query doesn't match the content of context, just return with an answer "I don't have information about this". Do not give answer if the information is not available in provided document.
-            Human: {question}
-            Chatbot:"""
+    example_formatter_template = """
+    techstack: {techstack}
+    Rating: {Rating}\n
+    """
 
-    prompt = PromptTemplate(input_variables=["context","question"],
-                        template=template)
+    example_prompt = PromptTemplate(
+        input_variables=["techstack","Rating"],
+        template=example_formatter_template,
+    )
+
+    few_shot_prompt = FewShotPromptTemplate(
+        examples=examples,
+        example_prompt=example_prompt,
+        prefix="Here are some examples of TechStacks and Rating associated with them:\n\n",
+        suffix="""\nYou are an Resource Management chatbot designed to assist company resource team. 
+                give the answer based on given client requirement documents and current market trends on tech stack.
+                Below is the requirement given from which you need to find out tech stack required with their ratings and overall experience
+                {context}
+                Human: {question}
+                Chatbot:""",
+        input_variables=["context","question"],
+        example_separator="\n",
+    )
 
 
     bot = RetrievalQA.from_chain_type(
         llm,
         retriever=retriever,
-        chain_type_kwargs={"prompt": prompt},
+        chain_type_kwargs={"prompt": few_shot_prompt},
     )
 
     result = bot({'query': query})

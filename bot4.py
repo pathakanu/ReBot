@@ -33,42 +33,42 @@ def generate_response(file_path, query):
 
     llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
 
-    template = """You are an Resource Management chatbot designed to assist company resource team. 
-            give the answer based on given client requirement documents and current market trends on tech stack.
-            Below is the requirement given from which you need to find out tech stack required with their ratings and overall experience
-            
-            {context}
-            Human: Tech stack for QA engineer
-            Chatbot:{{
-                            {{
+    template = """You are a Resource Management chatbot designed to assist the company's resource team. 
+                    Provide answers based on the client's requirement documents and current market trends on the required tech stack. 
+                    Below is the provided requirement from which you need to identify the necessary tech stack along with their ratings and overall experience.
+
+                    {context}
+                    Human: Tech stack
+                    Chatbot: {{
+                        {{
                             TechStack: Qlik,
                             Rating: 5
-                            }},
-                            {{
+                        }},
+                        {{
                             TechStack: SQL,
                             Rating: 4
-                            }},
-                            {{
+                        }},
+                        {{
                             TechStack: NoSQL,
                             Rating: 4
-                            }},
-                            {{
+                        }},
+                        {{
                             TechStack: Jira,
                             Rating: 5
-                            }},
-                            {{
+                        }},
+                        {{
                             TechStack: Scrum/Agile,
                             Rating: 4
-                            }}
-                            experience:{{
-                            year: 5+}}
-                            }}
+                        }}
+                        experience: {{
+                            year: 5+
+                        }}
+                    }}
 
-            Please give the answer in JSON format based on skills and experience which we mentioned in above example. Make sure the above is only example, don't add this data with new query.
-            Match the query tech stack with document tech stack, if those doesn't match return with an answer "I don't have information about this".
-            If the given query doesn't match the content of context, just return with an answer "I don't have information about this". Do not give answer if the information is not available in provided document.
-            Human: {question}
-            Chatbot:"""
+                    Please provide the answer in JSON format based solely on the mentioned skills and experience in the above example.
+                    If the given query data is not present in the given document's context, respond with "I don't have information about this."
+                    Human: {question}, if you don't have information about it, just simply response i don't know
+                    Chatbot:"""
 
     prompt = PromptTemplate(input_variables=["context","question"],
                         template=template)
@@ -105,7 +105,7 @@ with st.sidebar:
 
     domain = st.selectbox(
         "Choose a Domain",
-        ("QA Engineer", "Wordpress Developer", "UI/UX Developer")
+        ("QA Engineer", "Wordpress Developer", "UI/UX Developer","Telephony Engineer", "Technical Support Engineer","Senior WordPress PHP Developer")
     )
 
     template_1 = f"Tell me {req} for {domain}"

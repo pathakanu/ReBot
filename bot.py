@@ -37,81 +37,82 @@ retriever = db.as_retriever(search_type="similarity_score_threshold", search_kwa
 
 llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
 
-# Define your desired data structure.
-class Tech(BaseModel):
-    TechStack: str = Field(description="It mentions the tech stack")
-    Rating: str = Field(description="It mentions the rating of the tech in scale of 1-5")
+# # Define your desired data structure.
+# class Tech(BaseModel):
+#     TechStack: str = Field(description="It mentions the tech stack")
+#     Rating: str = Field(description="It mentions the rating of the tech in scale of 1-5")
 
-    # You can add custom validation logic easily with Pydantic.
-    @validator("TechStack")
-    def question_ends_with_question_mark(cls, field):
-        if field[-1] != "?":
-            raise ValueError("Badly formed question!")
-        return field
+#     # You can add custom validation logic easily with Pydantic.
+#     @validator("TechStack")
+#     def question_ends_with_question_mark(cls, field):
+#         if field[-1] != "?":
+#             raise ValueError("Badly formed question!")
+#         return field
 
-parser = PydanticOutputParser(pydantic_object=Tech)
+# parser = PydanticOutputParser(pydantic_object=Tech)
 
-examples = [
-    {"techstack": "WordPress", "Rating": "3"},
-    {"techstack": "PHP", "Rating": "2"},
-    {"techstack": "JavaScript", "Rating": "4"},
-    {"techstack": "jQuery", "Rating": "3"},
-    {"techstack": "RESTful", "Rating": "5"},
-    {"techstack": "Git", "Rating": "5"},
-    {"techstack": "React.js", "Rating": "4"},
-    {"techstack": "SQL", "Rating": "3"},
-    {"techstack": "NoSQL", "Rating": "3"},
-    {"techstack": "JIRA", "Rating": "3"},
-    {"techstack": "Adobe CC", "Rating": "3"},  
-    {"techstack": "Adobe XD", "Rating": "3"},
-    {"techstack": "Figma", "Rating": "4"},
-    {"techstack": "Adobe CC", "Rating": "3"},
-]
+# examples = [
+#     {"techstack": "WordPress", "Rating": "3"},
+#     {"techstack": "PHP", "Rating": "2"},
+#     {"techstack": "JavaScript", "Rating": "4"},
+#     {"techstack": "jQuery", "Rating": "3"},
+#     {"techstack": "RESTful", "Rating": "5"},
+#     {"techstack": "Git", "Rating": "5"},
+#     {"techstack": "React.js", "Rating": "4"},
+#     {"techstack": "SQL", "Rating": "3"},
+#     {"techstack": "NoSQL", "Rating": "3"},
+#     {"techstack": "JIRA", "Rating": "3"},
+#     {"techstack": "Adobe CC", "Rating": "3"},  
+#     {"techstack": "Adobe XD", "Rating": "3"},
+#     {"techstack": "Figma", "Rating": "4"},
+#     {"techstack": "Adobe CC", "Rating": "3"},
+# ]
 
-example_formatter_template = """
-techstack: {techstack}
-Rating: {Rating}\n
-"""
+# example_formatter_template = """
+# techstack: {techstack}
+# Rating: {Rating}\n
+# """
 
-example_prompt = PromptTemplate(
-    input_variables=["techstack","Rating"],
-    template=example_formatter_template,
-)
+# example_prompt = PromptTemplate(
+#     input_variables=["techstack","Rating"],
+#     template=example_formatter_template,
+# )
 
-few_shot_prompt = FewShotPromptTemplate(
-    examples=examples,
-    example_prompt=example_prompt,
-    prefix="Here are some examples of TechStacks and Rating associated with them:\n\n",
-    suffix="""\nYou are an Resource Management chatbot designed to assist company resource team. 
-            give the answer based on given client requirement documents and current market trends on tech stack.
-            Below is the requirement given from which you need to find out tech stack required with their ratings and overall experience
-            {context}
-            {format_instructions}
-            Human: {question}
-            Chatbot:""",
-    input_variables=["context","question"],
-    example_separator="\n",
-    partial_variables={"format_instructions": parser.get_format_instructions()},
-)
+# few_shot_prompt = FewShotPromptTemplate(
+#     examples=examples,
+#     example_prompt=example_prompt,
+#     prefix="Here are some examples of TechStacks and Rating associated with them:\n\n",
+#     suffix="""\nYou are an Resource Management chatbot designed to assist company resource team. 
+#             give the answer based on given client requirement documents and current market trends on tech stack.
+#             Below is the requirement given from which you need to find out tech stack required with their ratings and overall experience
+#             {context}
+#             {format_instructions}
+#             Human: {question}
+#             Chatbot:""",
+#     input_variables=["context","question"],
+#     example_separator="\n",
+#     partial_variables={"format_instructions": parser.get_format_instructions()},
+# )
 
-formatted_prompt = few_shot_prompt.format(context="context",question="question")
+# formatted_prompt = few_shot_prompt.format(context="context",question="question")
 
-bot = qa_chain = RetrievalQA.from_chain_type(
-    llm,
-    retriever=retriever,
-    chain_type_kwargs={"prompt": few_shot_prompt},
-)
+# bot = qa_chain = RetrievalQA.from_chain_type(
+#     llm,
+#     retriever=retriever,
+#     chain_type_kwargs={"prompt": few_shot_prompt},
+# )
 
-while True:
-    query = input("Hi, Please enter your query (or 'exit' to quit): ")
+# while True:
+#     query = input("Hi, Please enter your query (or 'exit' to quit): ")
     
-    if query == "exit":
-        break
+#     if query == "exit":
+#         break
     
-    result = bot({'query': query})
-    # json_output = parser.parse(result['result'])
-    print(result['result'])
-    # print(json_output)
+#     result = bot({'query': query})
+#     # json_output = parser.parse(result['result'])
+#     print(result['result'])
+#     # print(json_output)
 
 
-
+query = input("Hi, Please enter your query (or 'exit' to quit): ")
+print(db.similarity_search(query))
