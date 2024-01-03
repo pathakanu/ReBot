@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 from langchain.embeddings import OpenAIEmbeddings
-from langchain.text_splitter import CharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
@@ -16,7 +16,7 @@ def generate_response(file_path, query):
     documents = loader.load_and_split()
     
     #splitting documents
-    text_splitter = CharacterTextSplitter(chunk_size=1024, chunk_overlap=20)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1024, chunk_overlap=20)
     docs = text_splitter.split_documents(documents)
 
     embedding_function = OpenAIEmbeddings()
