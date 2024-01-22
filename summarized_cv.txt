@@ -1,0 +1,302 @@
+**Summary:**
+
+* 6.8 years of IT experience, including:
+    * 3.4 years as a Talend Developer
+    * 1.5 years as an Oracle SQL Developer (SQL, PL/SQL)
+
+**Skill Set:**
+
+* Talend Open Studio (7.3.1), Talend Data Fabric (7.3.1)
+* Data extraction, transformation, and loading (ETL) processes
+* Designing and building solutions in Talend
+* Working with databases and flat files
+* Talend components: tMap, tOracleInput, tOracleOutput, tDbInput, tDbOutput, tAggregateRow, tFilterRow, tFilterColumn, tNormalize, tjavaRow, tFileInputDelimited, tFileOutputDelimited, tLogCatcher, tStatCatcher, tWarn, tUnite, tDie, tFileList, tRunJob, tIterateToFlow, and tFlowToIterate
+* Implementing SCD Type-I, Type-II, and Type-III dimensional tables and facts
+* Data warehouse concepts, star schema, snowflake schema, dimensional data modeling, fact & dimension tables
+* Java (1.8), Python (3.9.0), Unix, Linux SQL, PL/SQL, AWS, Snowflake, Amazon Redshift, PostgreSQL, Putty, git/Github, Jenkins (CI/CD), Maven, Tomcat, and Docker
+
+**Education:**
+
+* Master of Technology (S.E) from JNTU Hyderabad
+
+
+
+**Summary**
+
+* 8+ years of working experience, 5+ years in Big Data
+* AWS Certified Developer Associate
+* Proficient in Big Data Hadoop, Hive, Spark, Python, MapReduce, Oozie, Talend, AWS Services-EMR, EC2, S3, Elasticsearch, Logstash, Kibana, Glue, Athena, Airflow, Autosys, Shell scripting
+* Skilled in developing, validating, and maintaining HiveQL queries, Pyspark queries, Glue Jobs, Shell Scripting, Airflow Dag creation, and Autosys Jil creation
+* Experienced in designing DDL and DML in Hive/Impala, Athena
+* Familiar with Talend open-source edition, Informatica MDM, Delphix MDM (Masking), Azure Synapse, and Azure Data Explorer
+* Capable of processing large sets of structured, semi-structured, and unstructured data and supporting systems.
+* Hands-on experience in Streaming data in spark cluster
+* Agile Methodology
+* SAS / R / PYTHON programming
+* Clustering, Multiple Linear Regression, Logistic Regression, Decision Tree Model, and Market Basket Analysis
+* Projects done for R, SAS & Python in Telecom, Banking Sector, Internet, and Aviation Industry
+
+**Qualification**
+
+* BA from Manav Bharti University, 2015
+* Intermediate from the Central Board of Secondary Education, 2008
+* High school from the Central Board of Secondary Education, 2006
+
+
+
+**Summary**
+
+**Name:** Shivani Verma
+**Total Working Experience:** 6.5 years
+
+**Skills:**
+
+* Certified "Talend Data Integration v7 Developer".
+* Talend(DI and BIG DATA) developer.
+* Experience in developing ETL jobs to implement business logic and deliver data from source to target. Expertise in scoping, design, and development.
+* Hands-on experience on performance tuning - Using the tmap cache properties, multi-threading, and parallelize components.
+* Good understanding of SCD type1/2/3 concepts.
+* Working knowledge of Delta load/incremental load in Talend.
+* Extensive knowledge in importing and exporting data using Sqoop from Relational Database System to HDFS and vice-versa. Also has knowledge on HDFS architecture.
+* Adroit at learning new concepts quickly, working under pressure, and communicating ideas clearly and effectively.
+* Basic knowledge of Unix and mainframes.
+* Experience in training and leading newly joining team-mates for project activities and technical knowledge.
+* Good understanding of Data Warehousing concepts.
+* Knowledge of different types of tables in HIVE.
+
+**Qualification:**
+
+* B.E. in Electronics & Communication from Uttarakhand University (2016).
+* Class XII in Science from Seven Oaks School (2012).
+* Class X in Science from Seven Oaks School (2010).
+
+
+
+**Name:** Swaris Shukla
+
+**Contact Information:**
+- Phone: +91-8887860421
+- Email: swarisshukla14@gmail.com
+- LinkedIn: https://www.linkedin.com/in/swaris-shukla-696285186
+
+**Objective:**
+- Seeks opportunities in data engineering and ETL domains.
+- Proficient in various big data technologies including Talend.
+
+**Total Working Experience:**
+- 5+ years
+
+**Skillset:**
+- Talend Open Studio (Versions 7.3.1, 6.4.1)
+- Talend Cloud Studio
+- Talend Administration Center
+- Elastic
+- Logstash
+- Java
+- MySQL
+- Snowflake
+- Vertica
+- Unix
+- CrushFTP
+- AWS S3
+- Jenkins
+- RabbitMQ
+- ActiveMQ
+- PostgreSQL
+
+**Qualifications:**
+- Bachelor of Technology in Computer Science and Engineering from the National Institute of Technology, Uttarakhand (2015-2019).
+- CGPA: 8.03
+- HSC/Intermediate from Army Public School No. 1, Roorkee (2013-2014).
+- Aggregate: 82.2%
+- SSC/Matriculation from Army Public School No. 1, Roorkee (2011-2012).
+- CGPA: 10.0
+
+
+
+**Total Working Experience:** 5 years
+
+**Skillsets:**
+
+* Programming Languages: Python, Java
+* Technology Stack: Talend Open and Enterprise Studio [DI, Big Data], AWS, Snowflake, MySQL, Oracle, AS400, Docker, GIT
+* Database: MySQL, Oracle, AS400
+* DevOps: Versioning Tools, Docker, GIT
+
+**Qualification:**
+
+* PG-DAC from CDAC Sunbeam Pune (2018-19)
+* B.Tech from Kurukshetra University (2013-17)
+
+
+
+**Name:** Amritesh Mishra
+
+**Total Working Experience:** 6+ years
+
+**Education:**
+
+- B.Tech in Information Technology from KIIT University, Bhubaneswar, Odisha (2013-2017)
+
+**Skills:**
+
+* Data Pipelines
+* ETL Pipelines
+* MySQL
+* Talend Open Studio
+* Spark
+* Talend
+* MongoDB
+* Oracle
+* ELK
+* Jython
+* Erwin Data Intelligence Suite
+* Pyspark
+* AWS Athena
+* AWS S3
+* Python
+* Java Core
+* Shell Scripting
+* AWS
+* Jython
+
+**Strengths:**
+
+* Communication Skills
+* Creativity
+* Result-oriented
+
+
+
+**Total Working Experience:** 6.10 years
+
+**Skills:**
+
+- Software Development Lifecycle (SDLC)
+- Data Integration
+- Data Extraction, Transformation, and Loading (ETL)
+- Talend ETL Development
+- Data Warehousing Concepts
+- Data Mart Creation
+- Dimensional and Fact Tables
+- SCD Type-1, Type-2, Type-3 Implementation
+- Context Variable Creation
+- TMC and TAC Experience
+- Installation and Configuration of Talend Servers
+- Data Extraction from Heterogeneous Sources
+- ETL Process for Data Loading
+- Business Process Analysis and Design
+- Application-Based Process Re-engineering
+- Process Optimization
+- Cost Control and Revenue Maximization
+- Object-Oriented Programming
+- Machine Learning and Deep Learning
+- Test Driven Development (TDD)
+
+**Qualification:**
+
+- Under Graduation (Degree) from Kakatiya University
+
+
+
+**Summary**
+
+- Total Working Experience: 6 + years
+
+**Skills**
+
+- Languages: SQL, PL/SQL, Unix Shell Scripting, Bigquery
+- Database: Oracle 10g, 11g, 12c, 19c, and GCP
+- Tools: Crystal Report, SQL-Developer, Toad, Visual Studio 2010, SVN, Talend ETL (versions 6.3, 7.3), Control-M
+- Operating System: Windows, Unix
+
+**Qualification**
+
+- M. Tech, COEP, Pune, 2016, 7.29 CGPA
+- B. Tech, GCOE, Amravati, 2013, 7.2 CGPA
+- HSC, Amravati, 2009, 86%
+- SSC, Amravati, 2007, 89%
+
+
+
+**Total Working Experience:** 8.6 years
+
+**Skillsets:**
+
+- SQL Development
+- ETL Development
+- Data Warehousing
+- Data Conversion/Migration
+- Data Analysis
+- Data Validation
+- Business Intelligence (BI)
+- Microsoft SQL Server (2008, 2008 R2, 2012, 2014, 2016, 2017)
+- SSIS (SQL Server Integration Services)
+- SSRS (SQL Server Reporting Services)
+- SSAS (SQL Server Analysis Services)
+- Talend
+- ASP.NET
+- C#
+- AJAX
+- JQuery
+- Bootstrap
+- HTML
+- CSS
+- JavaScript
+- XML
+- JSON
+- T-SQL
+- Visual Studio
+- TFS (Team Foundation Server)
+- GitHub
+- Microsoft Azure
+
+**Qualification:**
+
+- B.Tech in Computer Science and Engineering from Institution of Electronics and Telecommunication Engineers (IETE), New Delhi, 2012 (7.55 CGPA)
+- 12th in PCM from Govt. Senior Secondary School, Masuda, Ajmer (Rajasthan), 2008 (68.15 %)
+- 10th from Govt. Senior Secondary School, Masuda, Ajmer (Rajasthan), 2006 (85.00 %)
+
+
+
+**Name:** Rajender Uppula
+
+**Total Working Experience:** 8.5+ years
+
+**Skillsets:**
+
+* Apache Spark
+* ETL
+* SQL
+* PostgreSQL
+* Java
+* Apache Drill
+* MapR Drill
+* HDFS
+* MapR
+* Elastic Search
+* Big Data
+* Hadoop Ecosystem
+* SQL Server
+* AWS
+* XML
+* JSON
+* Linux (Ubuntu, CentOS)
+* Windows Family
+* Talend Real Time Big Data Platform
+* Talend Administration Center
+* Talend Data Integration
+* GIT
+* Tableau
+* GIT
+* Nexus
+* Maven
+* SVN
+
+**Qualifications:**
+
+* Master of Computer Applications from Osmania University, Hyderabad (2011)
+* Bachelor of Science from Kakatiya University, Warangal (2008)
+
+
+
