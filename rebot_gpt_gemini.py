@@ -16,6 +16,7 @@ from PIL import Image
 import pdf2image
 import google.generativeai as genai
 
+llm = OpenAI(model_name="gpt-3.5-turbo-instruct", temperature=0)
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 document = []
@@ -50,6 +51,36 @@ def summarize_document_vision(pdf_content,prompt):
     # print(response.text)
     return response.text
 
+def run_chain(job_description, cv_summarized, stack):
+    template = """You are a skilled ATS (Applicant Tracking System) scanner with a deep understanding of {stack}, 
+    your task is to evaluate the resume against the provided job description. State name of the candidate, candidate's total experience, Give the percentage of match based on the years of experience and tech stacks known by the candidate, comparing from the given job description. Mention the overall tech skills known by the candidate and add reason behind the percentage value. 
+
+    Below is the Job Description:
+    {job_description}
+    \n
+    Below is the Candidate's CV/Resume:
+    {cv_summarized}
+    \n
+    Below is the provided sample format in which you need to give output.
+    Example: {{
+        "Candidate Name": "Rahul Robin",
+        "Total Experience": "6+ years",
+        "Match%": "58",
+        "Known Skills": "MySQL, React.js"
+        "Reason": "Could be better with more UI/UX knowledge"
+    }}
+
+    Please read the given summarized CV thoroughly
+    Make sure you don't replicate the example. Based on the given resume, provide the output.
+    """
+
+    prompt = PromptTemplate(input_variables=["stack","job_description","cv_summarized"], template=template)
+
+    chain = LLMChain(llm=llm, prompt=prompt)
+
+    output = chain.invoke({"stack":stack, "job_description":job_description, "cv_summarized":cv_summarized})
+
+    return output['text']
 
 def input_pdf_setup(uploaded_file):
     if uploaded_file is not None:
@@ -135,7 +166,7 @@ summarize_prompt = """
 Please summarize the given document mentioning total experience ,skillsets and qualification, don't include "About Us" Section which contains company details. Only mention the required data in JD, summarize within 100 words"""
 
 summarize_resume_prompt = """
-Please summarize the given resume mentioning name of the candidate, total working experience ,skillsets and qualification. Exclude the project section of the resume."""
+Please summarize the given resume mentioning name of the candidate, total working experience ,skillsets and qualification. Particulary summarize the projects section in very short and precise and in bullet points"""
 
 uploaded_file=st.file_uploader("Upload your Job Description(PDF)...",type=["pdf"])
 if uploaded_file is not None:
@@ -143,88 +174,13 @@ if uploaded_file is not None:
         filename = uploaded_file.name
         file_path = os.path.join("requirement/",filename)
         pdf_document = document_load(file_path)
-        summarize_text = summarize_document(pdf_document,summarize_prompt)
-        # st.write(summarize_text)
+        job_description = summarize_document(pdf_document,summarize_prompt)
         st.write("PDF Uploaded Successfully")
 
-# submit1 = st.button("Tell Me About the Resume")
 
-#submit2 = st.button("How Can I Improvise my Skills")
-
-# submit3 = st.button("Percentage match")
-# submit4 = st.button("Tell me name")
 stack = st.selectbox("Choose JD Domain",("Data Science","Blockchain","Web Development","DevOps","Backend Developer","UI/UX"))
 submit = st.button("Submit")
 
-
-prompt = f"""You are a skilled ATS (Applicant Tracking System) scanner with a deep understanding of {stack}, 
-your task is to evaluate the resume against the provided job description. State name of the candidate, candidate's total experience, Give the percentage of match based on the years of experience and tech stacks known by the candidate, comparing from the given job description. Mention the tech skills known by the candidate and add reason behind the percentage value. Below is the provided sample format in which you need to give output. 
-
-Example: {{
-    "Candidate Name": "Rahul Robin",
-    "Total Experience": "6+ years",
-    "Match%": "58",
-    "Known Skills": "MySQL, React.js"
-    "Reason": "Could be better with more UI/UX knowledge"
-}}
-
-Please read the given summarized CV thoroughly
-Make sure you don't replicate the example. Based on the given resume, provide the output.
-"""
-
-input_prompt1 = """
- You are an experienced Technical Human Resource Manager,your task is to review the provided resume against the job description. 
-  Please share your professional evaluation on whether the candidate's profile aligns with the role. 
- Highlight the strengths and weaknesses of the applicant in relation to the specified job requirements.
-"""
-
-input_prompt3 = """
-You are an skilled ATS (Applicant Tracking System) scanner with a deep understanding of data science and ATS functionality, 
-your task is to evaluate the resume against the provided job description. give me the percentage of match if the resume matches
-the job description. Output Example: {
-Candidate name: Rahul Robin Jha
-Match: 68%
-Known skills: Python, Django, Solidity 
-}
-The output should be keywords missing and last final thoughts.
-"""
-
-input_prompt4 = """
-You are an skilled ATS (Applicant Tracking System) scanner with a deep understanding of data science and ATS functionality, 
-your task is to evaluate the resume against the provided job description. Tell me the name of the candidate
-"""
-
-input_prompt5 = f"""
-You are an skilled ATS (Applicant Tracking System) scanner with a deep understanding of {stack}, 
-The provided document is dictornary of candidates with %match and missing skills, your task is to evaluate the resume based on match%. Tell me the top 5 candidates for screening based on the list
-"""
-
-# if submit1:
-#     if uploaded_file is not None:
-#         pdf_content=input_pdf_setup(uploaded_file)
-#         response=get_gemini_response(input_prompt1,pdf_content,input_text)
-#         st.subheader("The Repsonse is")
-#         st.write(response)
-#     else:
-#         st.write("Please upload the resume")
-
-# elif submit3:
-#     if uploaded_file is not None:
-#         pdf_content=input_pdf_setup(uploaded_file)
-#         response=get_gemini_response(input_prompt3,pdf_content,input_text)
-#         st.subheader("The Repsonse is")
-#         st.write(response)
-#     else:
-#         st.write("Please upload the resume")
-
-# elif submit4:
-#     if uploaded_file is not None:
-#         pdf_content=input_pdf_setup(uploaded_file)
-#         response=get_gemini_response(input_prompt4,pdf_content,input_text)
-#         st.subheader("The Repsonse is")
-#         st.write(response)
-#     else:
-#         st.write("Please upload the resume")
 
 if submit:
     with st.spinner('Searching...'):
@@ -234,22 +190,19 @@ if submit:
             for item in directory_contents:
                 file_path = os.path.join("/home/anurag/Documents/langchain/ReBot/resumes",item)
                 pdf_content=document_load(file_path)
-                pdf_summarized = summarize_document(pdf_content,summarize_resume_prompt)
-                summarize_cv.append(pdf_summarized)
-                
-            # print(pdf_content)
-            # print(pdf_summarized)
-                # st.write(pdf_summarized)
-                response=get_gemini_response(prompt,pdf_summarized,summarize_text)
+                cv_summarized = summarize_document(pdf_content,summarize_resume_prompt)
+                summarize_cv.append(cv_summarized)
+                response = run_chain(job_description, cv_summarized, stack)
+                # response=get_gemini_response(prompt,cv_summarized,job_description)
                 try:
-                    json_object = json.loads(response.text)
+                    json_object = json.loads(response)
                     print(json_object)
                     st.write(json_object)
                     document.append(json_object)
 
                 except json.decoder.JSONDecodeError as e:
                     print(f"Error decoding JSON: {e}")
-        # pdf_content=input_pdf_setup(uploaded_file)
+
             for summary in summarize_cv:
                 with open("summarized_cv.txt", "a") as file:
                     file.write(summary)
@@ -259,8 +212,5 @@ if submit:
             st.subheader("Top 5 Candidate")
             for candidate in top_5_candidates:
                 st.write(f"Candidate Name: {candidate['Candidate Name']}, Match%: {candidate['Match%']}")
-            # st.subheader("Top 5 Candidate")
-            # st.write(response.text)
-            # st.write(document)
         else:
             st.write("Please upload the resume")
