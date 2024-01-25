@@ -166,7 +166,7 @@ summarize_prompt = """
 Please summarize the given document mentioning total experience ,skillsets and qualification, don't include "About Us" Section which contains company details. Only mention the required data in JD, summarize within 100 words"""
 
 summarize_resume_prompt = """
-Please summarize the given resume mentioning name of the candidate, total working experience ,skillsets and qualification. Particulary summarize the projects section in very short and precise and in bullet points"""
+Please summarize the given resume mentioning name of the candidate, total working experience ,skillsets and qualification. Particulary summarize the projects section in very short and precise and in bullet points. If candidate experience is not mentioned, then try to calculate candidate's experience from date of projects ."""
 
 uploaded_file=st.file_uploader("Upload your Job Description(PDF)...",type=["pdf"])
 if uploaded_file is not None:
@@ -178,17 +178,17 @@ if uploaded_file is not None:
         st.write("PDF Uploaded Successfully")
 
 
-stack = st.selectbox("Choose JD Domain",("Data Science","Blockchain","Web Development","DevOps","Backend Developer","UI/UX"))
+stack = st.selectbox("Choose JD Domain",("Data Science","Blockchain","Web Development","DevOps","Backend Developer","UI/UX","React-Native"))
 submit = st.button("Submit")
 
 
 if submit:
     with st.spinner('Searching...'):
         if document is not None:
-            directory_contents = os.listdir("resumes/")
+            directory_contents = os.listdir("react-resume/")
             summarize_cv=[]
             for item in directory_contents:
-                file_path = os.path.join("/home/anurag/Documents/langchain/ReBot/resumes",item)
+                file_path = os.path.join("/home/anurag/Documents/langchain/ReBot/react-resume",item)
                 pdf_content=document_load(file_path)
                 cv_summarized = summarize_document(pdf_content,summarize_resume_prompt)
                 summarize_cv.append(cv_summarized)
